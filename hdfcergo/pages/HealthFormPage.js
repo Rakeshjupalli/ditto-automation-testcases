@@ -9,39 +9,39 @@ export class HealthFormPage {
   constructor(page) {
     this.page = page;
 
-    // Product selection
+    // Product selection — use .first() to avoid strict-mode violations
     this.healthInsuranceModule = page.locator('text=Health Insurance').or(
-      page.getByRole('button', { name: /health insurance/i }).or(
-        page.locator('[data-testid="health-insurance"]').or(
-          page.getByText('Health', { exact: false })
-        )
-      )
-    );
+      page.getByRole('button', { name: /health insurance/i })
+    ).or(
+      page.locator('[data-testid="health-insurance"]')
+    ).or(
+      page.getByText('Health', { exact: true })
+    ).first();
 
     this.hdfcErgoOptimaSecure = page.locator('text=HDFC ERGO Optima Secure').or(
-      page.getByText(/Optima Secure/i).or(
-        page.locator('[data-testid="hdfc-ergo-optima-secure"]').or(
-          page.locator('img[alt*="Optima Secure"]').locator('..')
-        )
-      )
-    );
+      page.getByText(/Optima Secure/i)
+    ).or(
+      page.locator('[data-testid="hdfc-ergo-optima-secure"]')
+    ).or(
+      page.locator('img[alt*="Optima Secure"]').locator('..')
+    ).first();
 
     // Plan configuration - "You" option (individual)
     this.youOption = page.locator('text=You').or(
-      page.getByRole('button', { name: /^You$/i }).or(
-        page.getByLabel('You').or(
-          page.locator('[data-testid="plan-you"]').or(
-            page.locator('div', { hasText: /^You$/ }).first()
-          )
-        )
-      )
-    );
+      page.getByRole('button', { name: /^You$/i })
+    ).or(
+      page.getByLabel('You')
+    ).or(
+      page.locator('[data-testid="plan-you"]')
+    ).or(
+      page.locator('div', { hasText: /^You$/ })
+    ).first();
 
     this.individualOption = page.locator('text=Individual').or(
-      page.getByRole('radio', { name: /individual/i }).or(
-        page.getByText('Individual', { exact: true })
-      )
-    );
+      page.getByRole('radio', { name: /individual/i })
+    ).or(
+      page.getByText('Individual', { exact: true })
+    ).first();
 
     // Age input
     this.ageInput = page.locator('input[name="age"], input[placeholder*="age"], input[data-testid="age"]').or(
@@ -63,23 +63,25 @@ export class HealthFormPage {
 
     // Gender selection (if applicable)
     this.maleOption = page.locator('text=Male').or(
-      page.getByRole('radio', { name: /male/i }).or(
-        page.getByLabel('Male')
-      )
-    );
+      page.getByRole('radio', { name: /^Male$/i })
+    ).or(
+      page.getByLabel('Male')
+    ).first();
+
     this.femaleOption = page.locator('text=Female').or(
-      page.getByRole('radio', { name: /female/i }).or(
-        page.getByLabel('Female')
-      )
-    );
+      page.getByRole('radio', { name: /^Female$/i })
+    ).or(
+      page.getByLabel('Female')
+    ).first();
 
     // Continue/Next buttons
     this.continueButton = page.locator('button:has-text("Continue"), button:has-text("Next"), [data-testid="continue"]').or(
-      page.getByRole('button', { name: /continue|next/i })
-    );
+      page.getByRole('button', { name: /^Continue$|^Next$/i })
+    ).first();
+
     this.submitButton = page.locator('button:has-text("Get Quote"), button:has-text("See Plans"), button:has-text("Submit"]').or(
-      page.getByRole('button', { name: /get quote|see plans|submit/i })
-    );
+      page.getByRole('button', { name: /^Get Quote$|^See Plans$|^Submit$/i })
+    ).first();
 
     // Progress/step indicators
     this.stepIndicator = page.locator('[data-testid="step-indicator"], .stepper, [class*="progress"]').first();

@@ -60,5 +60,5 @@ export default defineConfig({
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-  outputDir: 'reports/test-results',
+  outputDir: 'test-results',
 });
