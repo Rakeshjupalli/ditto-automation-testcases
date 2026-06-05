@@ -1,0 +1,31 @@
+{
+  "name": "playwright-automation-suite",
+  "version": "1.0.0",
+  "description": "Root workspace for MakeMyTrip and HDFC ERGO Playwright automation projects",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "makemytrip",
+    "hdfcergo"
+  ],
+  "scripts": {
+    "install:all": "npm install --workspaces && npx playwright install chromium",
+    "test:makemytrip": "npm test --workspace=makemytrip",
+    "test:hdfcergo": "npm test --workspace=hdfcergo",
+    "test:all": "npm test --workspaces",
+    "report:makemytrip": "npm run report --workspace=makemytrip",
+    "report:hdfcergo": "npm run report --workspace=hdfcergo"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "testing",
+    "makemytrip",
+    "hdfc-ergo",
+    "insurance"
+  ],
+  "license": "MIT"
+}

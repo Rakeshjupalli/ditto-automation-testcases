@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Reports & Artifacts
+reports/
+test-results/
+playwright-report/
+blob-report/
+
+# Playwright Cache
+/playwright/.cache/
+/playwright/.auth/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local

@@ -1,0 +1,23 @@
+{
+  "name": "makemytrip-automation",
+  "version": "1.0.0",
+  "description": "Playwright automation for MakeMyTrip hotel search",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report reports",
+    "install:browsers": "playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "makemytrip",
+    "testing"
+  ],
+  "license": "MIT"
+}
