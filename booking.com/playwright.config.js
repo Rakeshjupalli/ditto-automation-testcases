@@ -14,7 +14,7 @@ export default defineConfig({
   use: {
     baseURL: 'https://www.booking.com',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
     video: 'on-first-retry',
     viewport: { width: 1920, height: 1080 },
     actionTimeout: 15000,
