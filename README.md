@@ -1,115 +1,132 @@
-# Playwright Automation Projects
+# Playwright Automation Suite
 
-This repository contains two separate Playwright automation projects using the Page Object Model (POM) architecture.
+End-to-end browser automation for Booking.com hotel search and HDFC ERGO insurance premium validation.
 
-## 📁 Project Structure
+Both projects use Playwright with the Page Object Model pattern.
+
+---
+
+## Project Structure
 
 ```
-├── hdfcergo/
+├── booking.com/
 │   ├── pages/
-│   │   ├── HealthFormPage.js
-│   │   └── PremiumSummaryPage.js
-│   ├── tests/
-│   │   └── premiumValidation.spec.js
-│   ├── reports/                  ← HTML reports & screenshots on failure
-│   └── playwright.config.js      ← Configured with reporter outputFolder: 'reports'
-│
-├── makemytrip/
-│   ├── pages/
-│   │   ├── HotelHomePage.js
-│   │   └── HotelListingPage.js
+│   │   └── BookingSearchPage.js
 │   ├── tests/
 │   │   └── searchHotels.spec.js
-│   ├── reports/                  ← HTML reports & screenshots on failure
-│   └── playwright.config.js      ← Configured with screenshots: 'only-on-failure'
+│   ├── reports/
+│   └── playwright.config.js
 │
-└── package.json
+├── hdfcergo/
+│   ├── pages/
+│   │   ├── BasePage.js
+│   │   ├── ProductSelectionPage.js
+│   │   ├── FamilyDetailsPage.js
+│   │   └── PremiumPage.js
+│   ├── tests/
+│   │   └── testhdfc.spec.js
+│   ├── fixtures.js
+│   ├── testData.js
+│   ├── reports/
+│   └── playwright.config.js
+│
+└── sync-hdfcergo.js
 ```
 
 ---
 
-## 🏨 /makemytrip — Hotel Search Automation
+## Booking.com — Hotel Search
 
-**Objective:** Search and list all hotels in Mumbai for the current date on MakeMyTrip.
+**What it does:**
+Searches for hotels in Mumbai on Booking.com and extracts the first 30 hotel names via lazy-scroll.
 
-### Features
-- Navigates to makemytrip.com
-- Handles dynamic popups, login banners, and overlay modals
-- Selects Hotels category
-- Searches for "Mumbai" with autocomplete dropdown selection
-- Dynamically calculates and selects today's check-in and tomorrow's check-out dates
-- Implements infinite scroll and pagination handling on results page
-- Extracts hotel names and prices
-- Logs clean, formatted results to console
+**Test flow:**
+1. Opens booking.com
+2. Dismisses popups/banners
+3. Enters "mumbai" as destination
+4. Selects check-in (15 Jun) and check-out (16 Jun)
+5. Sets 2 adults, 1 room
+6. Runs search
+7. Scrolls and collects 30 hotel names
+8. Logs results to console
 
-### Run Tests
+**Run:**
 ```bash
-cd makemytrip
-npm install
-npx playwright install chromium
-npm test
+cd booking.com
+npx playwright test
 ```
 
-### View Report
+**View report:**
 ```bash
-npm run report
+npx playwright show-report reports
 ```
 
 ---
 
-## 🛡️ /hdfcergo — Insurance Premium Validation
+## HDFC ERGO — Premium Validation
 
-**Objective:** Validate premium calculations, riders, and tax application on Ditto Insurance (HDFC ERGO Optima Secure).
+**What it does:**
+Walks through the Ditto Insurance (joinditto.in) flow for HDFC ERGO Optima Secure and validates premium calculations at checkout.
 
-### Features
-- Navigates to app.joinditto.in/fq
-- Selects Health Insurance → HDFC ERGO Optima Secure
-- Walks through "Tell us about you" wizard
-- Configures individual ("You") plan with demographics
-- Extracts Base Premium, Rider Costs, GST, and Total Premium
-- Performs explicit mathematical assertion:
-  ```
-  Total Premium = Base Premium + Selected Riders + GST
-  ```
+**Test flow:**
+1. Navigates to app.joinditto.in
+2. Selects Health → HDFC ERGO Optima Secure
+3. Completes the intro wizard
+4. Configures family: Self (M, 28), Spouse (F, 29), Son (10), Father, Mother
+5. Enters pincode 517113
+6. Calculates premium
+7. Selects policy period and proceeds to buy
+8. Verifies member details on checkout summary
+9. Extracts premium breakdown and asserts:
+   ```
+   Total Premium = Base Premium + Riders + GST
+   ```
 
-### Run Tests
+**Run:**
 ```bash
 cd hdfcergo
-npm install
-npx playwright install chromium
-npm test
+npx playwright test
 ```
 
-### View Report
+**View report:**
 ```bash
-npm run report
+npx playwright show-report reports
 ```
 
 ---
 
-## ⚙️ Global Configuration
+## Shared Configuration
 
-Both projects include:
-- **HTML Reporter** outputting to `./reports/`
-- **Screenshots on failure** (`screenshot: 'only-on-failure'`)
-- **Video recording** on first retry
-- **Traces** on first retry
-- **Retry logic**: 2 retries on CI, 1 locally
-- **Viewport**: 1920x1080
-- **Timeouts**: 15s action, 30s navigation
+| Setting | Value |
+|---------|-------|
+| Browser | Chromium (Desktop Chrome) |
+| Viewport | 1920×1080 |
+| Headless | true |
+| Screenshots | on (every test) |
+| Video | on-first-retry |
+| Trace | on-first-retry |
+| Retries | 1 local / 2 on CI |
+| Action timeout | 15s |
+| Navigation timeout | 30s |
 
----
-
-## 🛠️ Tech Stack
-
-| Technology | Version |
-|-----------|---------|
-| Playwright | ^1.40.0 |
-| JavaScript | ES6+ Modules |
-| Architecture | Page Object Model (POM) |
+Reports are written to `./reports/` and artifacts to `./test-results/`.
 
 ---
 
-## 📝 License
+## Prerequisites
 
-MIT
+Node.js 18+ and Playwright browsers:
+
+```bash
+npx playwright install chromium
+```
+
+Playwright is already installed at the workspace root (`node_modules/`).
+
+---
+
+## Tech Stack
+
+- Playwright ^1.40.0
+- JavaScript (ES modules)
+- Page Object Model
